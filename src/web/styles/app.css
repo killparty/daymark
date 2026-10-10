@@ -1,0 +1,292 @@
+/*
+ * Daymark design tokens. Paper-like light theme, warm dark theme.
+ * Theme follows the system unless the user picks one (html[data-theme]).
+ */
+:root {
+  color-scheme: light;
+  --bg: #f6f4ee;
+  --card: #fffefb;
+  --card-raised: #ffffff;
+  --border: #e6e1d6;
+  --border-strong: #d4cec0;
+  --ink: #1d1c1a;
+  --ink-2: #625e56;
+  --ink-3: #8f8a80;
+  --accent: #1d1c1a;
+  --accent-ink: #fffefb;
+  --danger: #c4302b;
+  --focus: #0b6bcb;
+  --shadow: 0 1px 0 rgb(0 0 0 / 0.03), 0 6px 20px -12px rgb(60 45 20 / 0.25);
+  --shadow-press: 0 0 0 rgb(0 0 0 / 0);
+
+  /* Activity palette: vivid enough for 3:1 contrast as dots on paper. */
+  --c-red: #dc3d43;
+  --c-orange: #dc6a17;
+  --c-amber: #b98500;
+  --c-green: #2b9a5f;
+  --c-teal: #0d9488;
+  --c-blue: #0b6bcb;
+  --c-indigo: #3e5bd8;
+  --c-purple: #8445bc;
+  --c-pink: #cf3897;
+  --c-slate: #646a73;
+
+  --radius-lg: 22px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+  --font:
+    -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-rounded:
+    ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #131312;
+    --card: #1c1b19;
+    --card-raised: #232220;
+    --border: #2d2b28;
+    --border-strong: #3b3935;
+    --ink: #eeece7;
+    --ink-2: #aaa59c;
+    --ink-3: #7c776f;
+    --accent: #eeece7;
+    --accent-ink: #131312;
+    --danger: #ff6b66;
+    --focus: #5eb1ff;
+    --shadow: 0 1px 0 rgb(255 255 255 / 0.02), 0 8px 24px -14px rgb(0 0 0 / 0.7);
+
+    --c-red: #ff6369;
+    --c-orange: #ff9a4d;
+    --c-amber: #f5c542;
+    --c-green: #43d18b;
+    --c-teal: #2ec4b6;
+    --c-blue: #52a8ff;
+    --c-indigo: #8ba0ff;
+    --c-purple: #c084f5;
+    --c-pink: #ff85c8;
+    --c-slate: #a1a7b0;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #131312;
+  --card: #1c1b19;
+  --card-raised: #232220;
+  --border: #2d2b28;
+  --border-strong: #3b3935;
+  --ink: #eeece7;
+  --ink-2: #aaa59c;
+  --ink-3: #7c776f;
+  --accent: #eeece7;
+  --accent-ink: #131312;
+  --danger: #ff6b66;
+  --focus: #5eb1ff;
+  --shadow: 0 1px 0 rgb(255 255 255 / 0.02), 0 8px 24px -14px rgb(0 0 0 / 0.7);
+
+  --c-red: #ff6369;
+  --c-orange: #ff9a4d;
+  --c-amber: #f5c542;
+  --c-green: #43d18b;
+  --c-teal: #2ec4b6;
+  --c-blue: #52a8ff;
+  --c-indigo: #8ba0ff;
+  --c-purple: #c084f5;
+  --c-pink: #ff85c8;
+  --c-slate: #a1a7b0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 100dvh;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  line-height: 1.2;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---- Shared building blocks ------------------------------------------- */
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+
+.section-title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 0 4px 8px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: var(--card-raised);
+  color: var(--ink);
+  font-weight: 590;
+  text-decoration: none;
+  transition:
+    transform 0.12s ease,
+    background 0.15s ease;
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.btn-primary {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: transparent;
+}
+.btn-danger {
+  background: var(--danger);
+  color: #fff;
+  border-color: transparent;
+}
+.btn-plain {
+  border-color: transparent;
+  background: transparent;
+}
+.btn-sm {
+  min-height: 34px;
+  padding: 0 12px;
+  font-size: 14px;
+}
+
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: var(--ink-2);
+}
+.icon-btn:hover {
+  background: color-mix(in srgb, var(--ink) 6%, transparent);
+}
+.icon-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.segmented {
+  display: inline-flex;
+  padding: 3px;
+  gap: 2px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--ink) 7%, transparent);
+}
+.segmented button {
+  min-height: 32px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 560;
+  color: var(--ink-2);
+}
+.segmented button[aria-pressed="true"],
+.segmented button[aria-checked="true"] {
+  background: var(--card-raised);
+  color: var(--ink);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.12);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.list > li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  min-height: 56px;
+}
+.list > li + li {
+  border-top: 1px solid var(--border);
+}
+
+.muted {
+  color: var(--ink-2);
+}
+.small {
+  font-size: 14px;
+}
+
+/* Activity colors as a custom property: style="--c: var(--c-green)" */
+.swatch {
+  --c: var(--c-slate);
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--c);
+  flex: none;
+}

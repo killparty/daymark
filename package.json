@@ -1,0 +1,46 @@
+{
+  "name": "daymark",
+  "version": "0.1.0",
+  "description": "Press a button, mark the day. A self-hosted activity calendar with a satisfying click.",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "packageManager": "bun@1.4.2",
+  "engines": {
+    "bun": ">=1.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/killparty/daymark"
+  },
+  "scripts": {
+    "dev": "bun run --parallel dev:server dev:web",
+    "dev:server": "bun --watch src/server/index.ts",
+    "dev:web": "vite",
+    "build": "vite build",
+    "start": "bun src/server/index.ts",
+    "db:generate": "drizzle-kit generate",
+    "typecheck": "tsc --noEmit && svelte-check --tsconfig ./tsconfig.json --threshold warning",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "test": "bun test",
+    "check": "bun run lint && bun run typecheck && bun run test && bun run build"
+  },
+  "dependencies": {
+    "@hono/standard-validator": "^0.4.0",
+    "drizzle-orm": "^0.45.4",
+    "hono": "^4.13.13",
+    "valibot": "^1.5.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.15",
+    "@lucide/svelte": "^1.55.0",
+    "@sveltejs/vite-plugin-svelte": "^7.1.4",
+    "@types/bun": "^1.4.2",
+    "drizzle-kit": "^0.31.11",
+    "svelte": "^5.57.2",
+    "svelte-check": "^4.7.6",
+    "typescript": "^6.0.3",
+    "vite": "^8.3.4"
+  }
+}

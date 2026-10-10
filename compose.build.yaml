@@ -1,0 +1,7 @@
+# Build Daymark from this checkout instead of pulling the published image:
+#   docker compose -f compose.yaml -f compose.build.yaml up -d --build
+# Only Docker is needed; Bun runs inside the build.
+services:
+  daymark:
+    image: daymark:local
+    build: .
