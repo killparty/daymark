@@ -1,6 +1,6 @@
 # Daymark: docker compose up -d
-name: daymark
 # See docs/deployment.md for running it behind Caddy and enabling auth.
+name: daymark
 services:
   daymark:
     image: ghcr.io/killparty/daymark:latest
