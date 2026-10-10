@@ -24,8 +24,11 @@ A physical companion — a small e-paper device with real colored buttons that m
 
 ## Quick start (Docker Compose)
 
+Only Docker is needed.
+
 ```sh
-curl -O https://raw.githubusercontent.com/killparty/workout-cal/main/compose.yaml
+mkdir daymark && cd daymark
+curl -fsSLO https://raw.githubusercontent.com/killparty/daymark/main/compose.yaml
 docker compose up -d
 ```
 
@@ -39,6 +42,15 @@ Without Compose:
 
 ```sh
 docker run -d --name daymark -p 8080:8080 -v daymark-data:/data ghcr.io/killparty/daymark:latest
+```
+
+### Build from source
+
+To run unreleased changes, or if you'd rather not pull the published image:
+
+```sh
+git clone https://github.com/killparty/daymark && cd daymark
+docker compose -f compose.yaml -f compose.build.yaml up -d --build
 ```
 
 ## Features

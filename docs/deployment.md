@@ -1,7 +1,8 @@
 # Deployment
 
 Docker Compose is the primary way to run Daymark. The image is published for `amd64` and `arm64`
-(Raspberry Pi 4/5) at `ghcr.io/killparty/daymark`.
+(Raspberry Pi 4/5) at `ghcr.io/killparty/daymark`. To build the image yourself from a checkout
+instead, use `docker compose -f compose.yaml -f compose.build.yaml up -d --build`.
 
 ## Minimal: private network, no login
 

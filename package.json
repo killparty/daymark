@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/killparty/workout-cal"
+    "url": "https://github.com/killparty/daymark"
   },
   "scripts": {
     "dev": "bun run --parallel dev:server dev:web",

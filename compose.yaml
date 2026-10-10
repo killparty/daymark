@@ -1,10 +1,10 @@
 # Daymark: docker compose up -d
+name: daymark
 # See docs/deployment.md for running it behind Caddy and enabling auth.
 services:
   daymark:
     image: ghcr.io/killparty/daymark:latest
-    # To build from source instead: comment out `image` and uncomment `build`.
-    # build: .
+    # To build from source instead, see compose.build.yaml.
     container_name: daymark
     restart: unless-stopped
     environment:
