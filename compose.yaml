@@ -1,0 +1,29 @@
+# Daymark: docker compose up -d
+# See docs/deployment.md for running it behind Caddy and enabling auth.
+services:
+  daymark:
+    image: ghcr.io/killparty/daymark:latest
+    # To build from source instead: comment out `image` and uncomment `build`.
+    # build: .
+    container_name: daymark
+    restart: unless-stopped
+    environment:
+      # "none": single user, no login. Only for a private network or VPN.
+      # "proxy": a reverse proxy (e.g. Caddy + an SSO) passes the user in a header.
+      AUTH_MODE: none
+      # AUTH_PROXY_USER_HEADER: Remote-User
+      # AUTH_PROXY_NAME_HEADER: Remote-Name
+      # AUTH_TRUSTED_PROXIES: 172.16.0.0/12
+      TZ: Europe/Zurich
+    volumes:
+      # A named volume gets the right file ownership automatically.
+      # To use a folder instead (e.g. for your backups), create it first and
+      # give it to the container user: mkdir data && sudo chown 1000:1000 data
+      # then replace the line below with: - ./data:/data
+      - daymark-data:/data
+    ports:
+      # Remove this when Caddy (or another proxy) reaches Daymark over a Docker network.
+      - "8080:8080"
+
+volumes:
+  daymark-data:
