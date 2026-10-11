@@ -25,7 +25,7 @@
   });
 </script>
 
-<main>
+<main class:wide={!["activities", "changes", "settings"].includes(router.route)}>
   {#if app.loadError}
     <div class="card failed" role="alert">
       <h2>Can't load Daymark</h2>
@@ -55,6 +55,14 @@
     margin: 0 auto;
     padding: calc(12px + env(safe-area-inset-top)) max(16px, env(safe-area-inset-right))
       calc(40px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  }
+  /* Wide screens: the home page becomes a sidebar plus calendar (see Home.svelte). */
+  @media (min-width: 1000px) {
+    main.wide {
+      max-width: 1240px;
+      padding-top: calc(24px + env(safe-area-inset-top));
+      padding-bottom: calc(24px + env(safe-area-inset-bottom));
+    }
   }
   .failed {
     margin-top: 20vh;

@@ -200,6 +200,24 @@
     line-height: 8px;
     color: var(--ink-2);
   }
+  /* Wide screens: fill the card's height instead of keeping cells square (see CalendarCard). */
+  @media (min-width: 1000px) {
+    .grid {
+      flex: 1;
+    }
+    .row:not(.head) {
+      flex: 1 1 0;
+      min-height: 56px;
+    }
+    .cell-wrap {
+      display: grid;
+    }
+    .cell {
+      aspect-ratio: auto;
+      padding-top: 8px;
+      gap: 6px;
+    }
+  }
   @media (min-width: 520px) {
     .dot {
       width: 9px;
