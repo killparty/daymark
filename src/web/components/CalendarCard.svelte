@@ -199,6 +199,15 @@
   .calendar {
     padding: 16px 12px 14px;
   }
+  /* Wide screens: as tall as the window (up to a point), so every week is visible at once. The
+     grid's rows share the height; if they would get too small, the card grows and the page scrolls. */
+  @media (min-width: 1000px) {
+    .calendar {
+      display: flex;
+      flex-direction: column;
+      min-height: min(calc(100dvh - 48px - env(safe-area-inset-top) - env(safe-area-inset-bottom)), 1000px);
+    }
+  }
   header {
     display: flex;
     align-items: center;

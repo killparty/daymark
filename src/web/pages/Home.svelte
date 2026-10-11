@@ -34,38 +34,44 @@
   const doneCount = $derived(app.active.filter((a) => app.isDoneToday(a.id)).length);
 </script>
 
-<PageHeader title="Daymark" {subtitle} />
+<div class="home">
+  <div class="side">
+    <PageHeader title="Daymark" {subtitle} />
 
-{#if app.active.length === 0}
-  <section class="card empty">
-    <h2>What do you want to mark?</h2>
-    <p class="muted">
-      Each activity becomes a button. Press it on a day you did it, and the day gets a dot.
-    </p>
-    <div class="suggestions">
-      {#each suggestions as s}
-        <button class="btn" style="--c: var(--c-{s.color})" disabled={adding} onclick={() => add(s)}>
-          <span class="sicon"><ActivityIcon icon={s.icon} size={18} /></span>
-          {s.label}
-        </button>
-      {/each}
-    </div>
-    <a class="btn btn-primary" href={href("activities")}>Create your own</a>
-  </section>
-{:else}
-  <section aria-label="Today's activities">
-    <p class="visually-hidden" aria-live="polite">
-      {doneCount} of {app.active.length} marked today
-    </p>
-    <div class="buttons">
-      {#each app.active as activity (activity.id)}
-        <ActivityButton {activity} />
-      {/each}
-    </div>
-  </section>
-{/if}
+    {#if app.active.length === 0}
+      <section class="card empty">
+        <h2>What do you want to mark?</h2>
+        <p class="muted">
+          Each activity becomes a button. Press it on a day you did it, and the day gets a dot.
+        </p>
+        <div class="suggestions">
+          {#each suggestions as s}
+            <button class="btn" style="--c: var(--c-{s.color})" disabled={adding} onclick={() => add(s)}>
+              <span class="sicon"><ActivityIcon icon={s.icon} size={18} /></span>
+              {s.label}
+            </button>
+          {/each}
+        </div>
+        <a class="btn btn-primary" href={href("activities")}>Create your own</a>
+      </section>
+    {:else}
+      <section aria-label="Today's activities">
+        <p class="visually-hidden" aria-live="polite">
+          {doneCount} of {app.active.length} marked today
+        </p>
+        <div class="buttons">
+          {#each app.active as activity (activity.id)}
+            <ActivityButton {activity} />
+          {/each}
+        </div>
+      </section>
+    {/if}
+  </div>
 
-<CalendarCard />
+  <div class="main">
+    <CalendarCard />
+  </div>
+</div>
 
 <style>
   .buttons {
@@ -80,6 +86,24 @@
     }
   }
   @media (max-width: 340px) {
+    .buttons {
+      grid-template-columns: 1fr;
+    }
+  }
+  /* Wide screens (iPad landscape, laptops): buttons in a sidebar, the calendar fills the rest. */
+  @media (min-width: 1000px) {
+    .home {
+      display: grid;
+      grid-template-columns: 300px minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Stays in view while a short window scrolls the calendar. When the sidebar is taller than
+       the calendar, there is no room to stick and it scrolls with the page. */
+    .side {
+      position: sticky;
+      top: calc(24px + env(safe-area-inset-top));
+    }
     .buttons {
       grid-template-columns: 1fr;
     }
