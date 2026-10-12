@@ -16,16 +16,31 @@
   let busy = $state(false);
   let error = $state<string | null>(null);
 
+  // A fresh start each time the sheet opens on a day...
   $effect(() => {
     if (!open || !date) return;
-    void app.revision;
     entries = null;
     confirming = null;
     error = null;
+  });
+
+  // ...and a quiet reload when data changes while it is open, keeping the current list (and a
+  // pending "Remove?" confirmation) on screen until the new one arrives.
+  $effect(() => {
+    if (!open || !date) return;
+    void app.revision;
+    let cancelled = false;
     api
       .entries(date, date)
-      .then((list) => (entries = list))
-      .catch((e) => (error = e.message));
+      .then((list) => {
+        if (!cancelled) entries = list;
+      })
+      .catch((e) => {
+        if (!cancelled) error = e.message;
+      });
+    return () => {
+      cancelled = true;
+    };
   });
 
   const title = $derived(

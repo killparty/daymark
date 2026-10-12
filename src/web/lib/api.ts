@@ -7,6 +7,7 @@ import type {
   ImportResult,
   LogResult,
   Me,
+  Revision,
   UpdateActivityBody,
   UserSettings,
 } from "../../shared/api.ts";
@@ -49,6 +50,7 @@ async function request<T>(method: string, path: string, body?: unknown): Promise
 
 export const api = {
   me: () => request<Me>("GET", "/me"),
+  revision: () => request<Revision>("GET", "/revision"),
   updateSettings: (patch: Partial<UserSettings>) =>
     request<UserSettings>("PATCH", "/me/settings", patch),
 

@@ -164,6 +164,30 @@ describe("export and import", () => {
   });
 });
 
+describe("revision", () => {
+  test("moves on every change and settings update, and only then", async () => {
+    const { call, ids } = await withActivities();
+    const rev = async () => (await call("GET", "/revision")).body.revision as string;
+
+    const first = await rev();
+    expect(await rev()).toBe(first);
+
+    const press = await call("POST", "/entries", { activityId: ids[0], timeZone: "UTC" });
+    const afterPress = await rev();
+    // A second press changes nothing, so neither does the revision.
+    await call("POST", "/entries", { activityId: ids[0], timeZone: "UTC" });
+    expect(await rev()).toBe(afterPress);
+    const seen = [first, afterPress];
+
+    await call("DELETE", `/entries/${press.body.entry.id}`);
+    seen.push(await rev());
+    await call("PATCH", "/me/settings", { weekStart: "sun" });
+    seen.push(await rev());
+
+    expect(new Set(seen).size).toBe(seen.length);
+  });
+});
+
 describe("auth", () => {
   test("proxy mode rejects requests that did not come through the proxy", async () => {
     const { call } = testApp({ AUTH_MODE: "proxy" });
