@@ -18,6 +18,9 @@ class AppState {
 
   /** Bumped after every data change, so views that cache entries reload. */
   revision = $state(0);
+  /** The server's revision at the last sync; when it moves, another device changed something. */
+  serverRevision: string | null = null;
+  #syncing: Promise<void> | null = null;
 
   toast = $state<{ id: number; message: string } | null>(null);
 
@@ -29,10 +32,7 @@ class AppState {
 
   async init() {
     try {
-      const [me, activities] = await Promise.all([api.me(), api.activities()]);
-      this.me = me;
-      this.activities = activities;
-      await this.refreshToday();
+      await this.sync();
       this.loadError = null;
     } catch (e) {
       this.loadError = e instanceof Error ? e.message : String(e);
@@ -46,13 +46,46 @@ class AppState {
     if (tz !== this.timeZone || today !== this.today) {
       this.timeZone = tz;
       this.today = today;
-      void this.refreshToday();
-      this.revision++;
+      void this.sync().catch(() => {});
     }
   }
 
-  async refreshToday() {
-    this.todayEntries = await api.entries(this.today, this.today);
+  /**
+   * Reloads everything the screens show at once, so they never disagree with each other.
+   * Existing data stays on screen until the new data has arrived.
+   */
+  sync(): Promise<void> {
+    this.#syncing ??= this.#load().finally(() => {
+      this.#syncing = null;
+    });
+    return this.#syncing;
+  }
+
+  async #load() {
+    // Read the revision first: a change that lands while loading moves it again, so the next
+    // check syncs once more instead of missing it.
+    const { revision } = await api.revision();
+    const [me, activities, todayEntries] = await Promise.all([
+      api.me(),
+      api.activities(),
+      api.entries(this.today, this.today),
+    ]);
+    this.me = me;
+    this.activities = activities;
+    this.todayEntries = todayEntries;
+    this.serverRevision = revision;
+    this.revision++;
+  }
+
+  /** Cheap check for changes made elsewhere (another device or tab); syncs only if there are any. */
+  async checkForChanges() {
+    if (!this.me || document.visibilityState !== "visible") return;
+    try {
+      const { revision } = await api.revision();
+      if (revision !== this.serverRevision) await this.sync();
+    } catch {
+      // Offline or server restarting: stay quiet and try again on the next check.
+    }
   }
 
   async refreshActivities() {
@@ -100,9 +133,8 @@ class AppState {
   }
 
   /** Call after changes that may affect anything (revert, import). */
-  async reloadAll() {
-    await Promise.all([this.refreshActivities(), this.refreshToday()]);
-    this.revision++;
+  reloadAll() {
+    return this.sync();
   }
 
   notify(message: string) {

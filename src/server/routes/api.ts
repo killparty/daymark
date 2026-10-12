@@ -9,6 +9,7 @@ import {
   LogEntryBody,
   type Me,
   ReorderActivitiesBody,
+  type Revision,
   UpdateActivityBody,
   UpdateSettingsBody,
 } from "../../shared/api.ts";
@@ -25,7 +26,7 @@ import {
   updateActivity,
 } from "../services/activities.ts";
 import type { ChangeContext } from "../services/audit.ts";
-import { listChanges, revertChange } from "../services/changes.ts";
+import { dataRevision, listChanges, revertChange } from "../services/changes.ts";
 import { exportCsv, exportData, importData } from "../services/data.ts";
 import { listEntries, logToday, removeEntry } from "../services/entries.ts";
 import { DEFAULT_SETTINGS, updateSettings } from "../services/users.ts";
@@ -66,6 +67,11 @@ export function apiRoutes(db: DbLike, config: Config) {
       .patch("/me/settings", validate("json", UpdateSettingsBody), (c) => {
         const settings = updateSettings(db, c.get("user"), c.req.valid("json"));
         return c.json(settings);
+      })
+      .get("/revision", (c) => {
+        const user = c.get("user");
+        const settings = { ...DEFAULT_SETTINGS, ...user.settings };
+        return c.json<Revision>({ revision: dataRevision(db, user.id, settings) });
       })
 
       /* ---- Activities --------------------------------------------------- */

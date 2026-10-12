@@ -13,6 +13,7 @@ which is the source of truth; this page is an overview.
 |---|---|---|
 | `GET` | `/me` | `{ id, name, authMode, settings }` |
 | `PATCH` | `/me/settings` | `{ weekStart?: "auto" \| "mon" \| "sun" \| "sat" }` |
+| `GET` | `/revision` | `{ revision }`: an opaque value that changes whenever the user's data or settings change. The web app polls it (every 30 s while visible, and on focus) and reloads everything when it moves, so a change made on another device shows up. |
 
 ## Activities
 

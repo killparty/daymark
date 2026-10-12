@@ -9,18 +9,24 @@
 
   onMount(() => {
     void app.init();
-    // Notice midnight and timezone changes (travel), and refresh when coming back to the tab.
-    const timer = setInterval(() => app.tick(), 30_000);
+    // Notice midnight and timezone changes (travel), and changes made on another device: on a
+    // timer while the page is visible, and right away when coming back to it.
+    const check = () => {
+      app.tick();
+      void app.checkForChanges();
+    };
+    const timer = setInterval(check, 30_000);
     const onVisible = () => {
-      if (document.visibilityState === "visible") {
-        app.tick();
-        void app.refreshToday();
-      }
+      if (document.visibilityState === "visible") check();
     };
     document.addEventListener("visibilitychange", onVisible);
+    window.addEventListener("focus", check);
+    window.addEventListener("online", check);
     return () => {
       clearInterval(timer);
       document.removeEventListener("visibilitychange", onVisible);
+      window.removeEventListener("focus", check);
+      window.removeEventListener("online", check);
     };
   });
 </script>

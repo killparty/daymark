@@ -1,5 +1,5 @@
-import { and, desc, eq, lt } from "drizzle-orm";
-import type { ActivitySnapshot, Change } from "../../shared/api.ts";
+import { and, count, desc, eq, lt, sql } from "drizzle-orm";
+import type { ActivitySnapshot, Change, UserSettings } from "../../shared/api.ts";
 import type { DbLike } from "../db/client.ts";
 import { changes } from "../db/schema.ts";
 import { badRequest, conflict, notFound } from "../lib/errors.ts";
@@ -46,6 +46,21 @@ export function listChanges(
     .limit(opts.limit)
     .all()
     .map(toChange);
+}
+
+/**
+ * A short opaque value that changes whenever the user's data or settings change. Every data
+ * change goes through `recordChange`, and changes are never deleted, so the number of changes
+ * and the newest id move on each one. Settings are not in the log, so they are hashed in.
+ */
+export function dataRevision(db: DbLike, userId: string, settings: UserSettings): string {
+  const row = db
+    .select({ n: count(), last: sql<string | null>`max(${changes.id})` })
+    .from(changes)
+    .where(eq(changes.userId, userId))
+    .get();
+  const settingsHash = Bun.hash(JSON.stringify(settings)).toString(36);
+  return `${row?.n ?? 0}.${row?.last ?? "0"}.${settingsHash}`;
 }
 
 /**

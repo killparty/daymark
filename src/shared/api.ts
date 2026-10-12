@@ -95,6 +95,14 @@ export interface Me {
   settings: UserSettings;
 }
 
+/**
+ * Changes whenever anything the user can see changes (any recorded change or a settings
+ * update). Clients poll it to notice changes made on another device.
+ */
+export interface Revision {
+  revision: string;
+}
+
 export interface LogResult {
   /** false when this activity was already logged for that day. A press is never counted twice. */
   created: boolean;

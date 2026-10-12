@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { untrack } from "svelte";
   import type { Activity, CreateActivityBody } from "../../shared/api.ts";
   import { LABEL_MAX } from "../../shared/api.ts";
   import { ICONS, type IconKey } from "../../shared/icons.ts";
@@ -19,13 +20,16 @@
   let busy = $state(false);
   let error = $state<string | null>(null);
 
-  // Reset the form each time the sheet opens.
+  // Reset the form each time the sheet opens, and only then: a background sync replacing the
+  // activity list must not wipe what is being typed.
   $effect(() => {
     if (!open) return;
-    label = activity?.label ?? "";
-    color = activity?.color ?? COLORS[app.active.length % COLORS.length] ?? "green";
-    icon = activity?.icon ?? "dumbbell";
-    error = null;
+    untrack(() => {
+      label = activity?.label ?? "";
+      color = activity?.color ?? COLORS[app.active.length % COLORS.length] ?? "green";
+      icon = activity?.icon ?? "dumbbell";
+      error = null;
+    });
   });
 
   async function save(e: SubmitEvent) {
