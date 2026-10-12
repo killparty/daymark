@@ -185,8 +185,9 @@
     flex-wrap: wrap;
     justify-content: center;
     align-content: flex-start;
-    gap: 3px;
-    max-width: 34px;
+    gap: 2px;
+    /* Room for four dots in a row (4 × 8 + 3 × 2), so four activities don't wrap as 3 + 1. */
+    max-width: 38px;
   }
   .dot {
     width: 8px;
@@ -224,7 +225,8 @@
       height: 9px;
     }
     .dots {
-      max-width: 40px;
+      gap: 3px;
+      max-width: 45px;
     }
   }
 </style>

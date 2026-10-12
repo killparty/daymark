@@ -15,8 +15,10 @@ That's the whole idea, kept deliberately simple:
 - **Yours.** Self-hosted, a single SQLite file, export to JSON or CSV at any time.
 
 <p>
-  <img src="docs/screenshots/home-light.png" alt="Daymark on a phone: Yoga and Gym marked today, six weeks of colored dots below" width="300">
-  <img src="docs/screenshots/month-dark.png" alt="Daymark in dark mode on desktop: month view filtered to Yoga" width="480">
+  <img src="docs/screenshots/desktop-dark.png" alt="Daymark in dark mode on a laptop: Yoga, Gym, Meditation and Study buttons in a sidebar, six weeks of colored dots beside them">
+</p>
+<p>
+  <img src="docs/screenshots/home-light.png" alt="Daymark on a phone: Yoga and Meditation marked today, six weeks of colored dots below" width="300">
 </p>
 
 A physical companion — a small e-paper device with real colored buttons that mirror the web buttons
