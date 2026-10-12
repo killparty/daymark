@@ -195,6 +195,39 @@
       transform: translateX(3px);
     }
   }
+  /* Two buttons side by side on a phone: tighten up so a word like "Meditation" fits on one line. */
+  @media (max-width: 419px) {
+    .activity {
+      column-gap: 10px;
+      padding: 14px 12px;
+    }
+    .icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 13px;
+    }
+    .label {
+      font-size: 17px;
+    }
+    .burst {
+      left: 32px;
+      width: 40px;
+      height: 40px;
+      margin: -20px 0 0 -20px;
+    }
+  }
+  @media (max-width: 379px) {
+    .activity {
+      column-gap: 8px;
+      padding-inline: 10px;
+    }
+    .label {
+      font-size: 16px;
+    }
+    .burst {
+      left: 30px;
+    }
+  }
   @media (prefers-reduced-motion: reduce) {
     .activity,
     .icon {

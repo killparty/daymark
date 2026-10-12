@@ -17,6 +17,17 @@ bun run format   # Biome
 bun run check    # lint, typecheck, tests, build
 ```
 
+## Screenshots and icons
+
+After a visible UI change, regenerate the README screenshots; after editing
+`src/web/public/icon.svg`, regenerate the PNG icon for iOS. Both use Playwright's Chromium
+(once: `bunx playwright install chromium`).
+
+```sh
+bun run screenshots   # docs/screenshots, from a throwaway server with sample data
+bun run icons         # src/web/public/apple-touch-icon.png
+```
+
 ## Conventions
 
 - Rules live in `src/server/services`; routes only validate and translate HTTP.

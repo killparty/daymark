@@ -1,7 +1,26 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="112" fill="#f6f4ee"/>
-  <rect x="96" y="96" width="320" height="320" rx="72" fill="#fffefb" stroke="#d4cec0" stroke-width="12"/>
-  <circle cx="200" cy="300" r="34" fill="#2b9a5f"/>
-  <circle cx="312" cy="300" r="34" fill="#0b6bcb"/>
-  <rect x="160" y="170" width="192" height="28" rx="14" fill="#1d1c1a"/>
+  <!-- A day: its number (the bar) and three marks. Colors follow the app's light and dark themes.
+       After editing, regenerate the PNG for iOS with: bun run icons -->
+  <style>
+    .tile { fill: #f6f4ee; }
+    .day { fill: #fffefb; stroke: #d4cec0; }
+    .num { fill: #1d1c1a; }
+    .green { fill: #2b9a5f; }
+    .blue { fill: #0b6bcb; }
+    .orange { fill: #dc6a17; }
+    @media (prefers-color-scheme: dark) {
+      .tile { fill: #131312; }
+      .day { fill: #232220; stroke: #3b3935; }
+      .num { fill: #eeece7; }
+      .green { fill: #43d18b; }
+      .blue { fill: #52a8ff; }
+      .orange { fill: #ff9a4d; }
+    }
+  </style>
+  <rect class="tile" width="512" height="512" rx="112"/>
+  <rect class="day" x="96" y="96" width="320" height="320" rx="72" stroke-width="12"/>
+  <rect class="num" x="160" y="176" width="192" height="28" rx="14"/>
+  <circle class="green" cx="176" cy="304" r="28"/>
+  <circle class="blue" cx="256" cy="304" r="28"/>
+  <circle class="orange" cx="336" cy="304" r="28"/>
 </svg>

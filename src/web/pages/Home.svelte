@@ -12,8 +12,8 @@
   const suggestions: CreateActivityBody[] = [
     { label: "Yoga", color: "green", icon: "flower" },
     { label: "Gym", color: "blue", icon: "dumbbell" },
-    { label: "Run", color: "orange", icon: "footprints" },
-    { label: "Swim", color: "teal", icon: "waves" },
+    { label: "Meditation", color: "orange", icon: "person" },
+    { label: "Study", color: "purple", icon: "book" },
   ];
 
   let adding = $state(false);
